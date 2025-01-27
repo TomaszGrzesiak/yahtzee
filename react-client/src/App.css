@@ -1,21 +1,25 @@
-#root {
-  max-width: 1280px;
+#app {
+  background-color: rgb(243, 244, 245);
+  margin: 0;
+  padding: 0.6rem;
+}
+html {
+  height: 100%;
+}
+body {
+  width: 1024px;
+  height: 100%;
   margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  background-color: rgb(20, 30, 47);
+  padding: 0;
 }
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+nav {
+  margin-left: 5%;
+  float: right;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.link {
+  margin: 0.3rem;
+  display: block;
 }
 
 @keyframes logo-spin {
