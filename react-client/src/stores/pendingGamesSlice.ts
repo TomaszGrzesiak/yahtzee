@@ -36,3 +36,6 @@ export default pendingGamesSlice.reducer;
 
 export const selectAllPendingGames = (state: RootState) =>
   state.pendingGames.games;
+
+export const selectPendingGameById = (id: number) => (state: RootState) =>
+  state.pendingGames.games.find((g) => g.id === id);
