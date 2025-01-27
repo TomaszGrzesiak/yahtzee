@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { IndexedYahtzeeSpecs } from "../model/game";
+import { RootState } from "./store";
 
 interface PendingGamesState {
   games: Array<IndexedYahtzeeSpecs>;
@@ -32,3 +33,6 @@ const pendingGamesSlice = createSlice({
 
 export const { upsertGame, removeGame } = pendingGamesSlice.actions;
 export default pendingGamesSlice.reducer;
+
+export const selectAllPendingGames = (state: RootState) =>
+  state.pendingGames.games;
