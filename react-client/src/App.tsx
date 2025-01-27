@@ -37,7 +37,9 @@ function App() {
 
   useEffect(() => {
     const ws = new WebSocket("ws://localhost:9090/publish");
-    ws.onopen = () => ws.send(JSON.stringify({ type: "subscribe" }));
+    ws.onopen = () => {
+      ws.send(JSON.stringify({ type: "subscribe" }));
+    };
     ws.onmessage = ({ data }) => {
       const game = JSON.parse(data);
       if (game.pending) {
@@ -47,8 +49,11 @@ function App() {
         dispatch(removePendingGame(game));
       }
     };
+
     return () => {
-      ws.send(JSON.stringify({ type: "unsubscribe" }));
+      if (ws.readyState === WebSocket.OPEN) {
+        ws.send(JSON.stringify({ type: "unsubscribe" }));
+      }
       ws.close();
     };
   }, [dispatch]);
