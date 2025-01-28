@@ -18,22 +18,19 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0;
 }
 
 #app {
   background-color: rgb(243, 244, 245);
+  width: 100%;
   margin: 0;
   padding: 0.6rem;
 }
 html {
   height: 100%;
-}
-body {
-  width: 1024px;
-  height: 100%;
-  margin: 0 auto;
-  background-color: rgb(20, 30, 47);
-  padding: 0;
 }
 nav {
   margin-left: 5%;
@@ -94,7 +91,6 @@ a:hover {
 body {
   margin: 0;
   display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
 }

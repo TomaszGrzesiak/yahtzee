@@ -1,57 +1,74 @@
 "use client";
 
-import { useState, KeyboardEvent } from "react";
-import { useDispatch } from "react-redux";
-import { useRouter, useSearchParams } from "next/navigation";
-import { setPlayer } from "@/stores/playerSlice";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
-function Login() {
-  const dispatch = useDispatch();
+import * as api from "@/model/api";
+import { selectPendingGameById } from "@/stores/pendingGamesSlice";
+import { selectOngoingGameById } from "@/stores/ongoingGamesSlice";
+import { selectPlayer } from "@/stores/playerSlice";
+import type { RootState } from "@/stores/store";
+import { useParams, useRouter } from "next/navigation";
+
+function Pending() {
   const router = useRouter();
-  const searchParams = useSearchParams();
 
-  const [playerInput, setPlayerInput] = useState("");
+  const { id } = useParams<{ id: string }>();
+  const parsedId = id ? parseInt(id) : undefined;
 
-  const enabled = playerInput !== "";
+  const player = useSelector(selectPlayer);
 
-  function login() {
-    dispatch(setPlayer(playerInput));
+  const pendingGame = useSelector((state: RootState) =>
+    parsedId !== undefined ? selectPendingGameById(parsedId)(state) : undefined
+  );
 
-    const gameParam = searchParams.get("game");
-    const pendingParam = searchParams.get("pending");
+  const ongoingGame = useSelector((state: RootState) =>
+    parsedId !== undefined ? selectOngoingGameById(parsedId)(state) : undefined
+  );
 
-    if (gameParam) {
-      router.replace(`/game/${gameParam}`);
-    } else if (pendingParam) {
-      router.replace(`/pending/${pendingParam}`);
-    } else {
-      router.replace("/");
+  useEffect(() => {
+    if (!player && parsedId !== undefined) {
+      router.push(`/login?pending=${parsedId}`);
     }
-  }
+  }, [player, parsedId, router]);
 
-  function handleKeyPress(e: KeyboardEvent<HTMLInputElement>) {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      if (enabled) login();
+  useEffect(() => {
+    if (parsedId === undefined) return;
+    if (!pendingGame) {
+      if (ongoingGame) {
+        router.replace(`/game/${parsedId}`);
+      } else {
+        router.replace("/");
+      }
+    }
+  }, [pendingGame, ongoingGame, parsedId, router]);
+
+  const canJoin =
+    pendingGame && player ? !pendingGame.players.includes(player) : false;
+
+  function handleJoin() {
+    if (pendingGame && player && canJoin) {
+      api.join(pendingGame, player);
     }
   }
 
   return (
     <div>
-      <h1>Login</h1>
-      <label>
-        Username:{" "}
-        <input
-          value={playerInput}
-          onChange={(e) => setPlayerInput(e.target.value)}
-          onKeyPress={handleKeyPress}
-        />
-      </label>
-      <button disabled={!enabled} onClick={login}>
-        Login
-      </button>
+      <h1>Game #{parsedId}</h1>
+      {pendingGame && (
+        <>
+          <div>Created by: {pendingGame.creator}</div>
+          <div>Players: {pendingGame.players.join(", ")}</div>
+          <div>
+            Available Seats:{" "}
+            {(pendingGame.number_of_players ?? 2) -
+              (pendingGame.players.length ?? 0)}
+          </div>
+          {canJoin && <button onClick={handleJoin}>Join</button>}
+        </>
+      )}
     </div>
   );
 }
 
-export default Login;
+export default Pending;
