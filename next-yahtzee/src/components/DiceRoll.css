@@ -13,24 +13,6 @@
   grid-row: 2;
   text-align: center;
 }
-.die1 {
-  content: url("/src/assets/1.png");
-}
-.die2 {
-  content: url("/src/assets/2.png");
-}
-.die3 {
-  content: url("/src/assets/3.png");
-}
-.die4 {
-  content: url("/src/assets/4.png");
-}
-.die5 {
-  content: url("/src/assets/5.png");
-}
-.die6 {
-  content: url("/src/assets/6.png");
-}
 .reroll {
   grid-row: 2;
   text-align: center;

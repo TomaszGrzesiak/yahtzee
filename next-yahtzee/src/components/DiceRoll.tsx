@@ -1,8 +1,7 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import * as api from "../model/api";
 import "./DiceRoll.css";
+import Image from "next/image";
 
 type Props = {
   className?: string;
@@ -36,6 +35,12 @@ export default function DiceRoll({ className, game, player, enabled }: Props) {
       <div className="die" />
       {game.roll.map((d: number, i: number) => (
         <div key={i} className={`die die${d}`}>
+          <Image
+            src={`/dice/${d}.png`}
+            alt={`Die face showing ${d}`}
+            width={40}
+            height={40}
+          />
           {d}
         </div>
       ))}
