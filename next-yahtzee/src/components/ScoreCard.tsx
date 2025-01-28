@@ -1,3 +1,5 @@
+"use client";
+
 import * as api from "../model/api";
 import { die_values, isDieValue, DieValue } from "models/src/model/dice";
 import {

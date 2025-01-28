@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import * as api from "../model/api";
 import "./DiceRoll.css";
