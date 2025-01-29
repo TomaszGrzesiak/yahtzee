@@ -27,7 +27,6 @@ function Lobby() {
 
   return (
     <div>
-      <h1>Yahtzee!</h1>
       {player && (
         <main>
           <label>

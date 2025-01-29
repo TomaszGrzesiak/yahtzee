@@ -13,13 +13,19 @@ import {
 import { score as calculateScore } from "models/src/model/yahtzee.slots";
 import { scores as totalScores } from "models/src/model/yahtzee.game";
 import "./ScoreCard.css";
+import { IndexedYahtzee } from "@/model/game";
 
 type Props = {
   className?: string;
-  game: any;
+  game: IndexedYahtzee;
   player: string;
   enabled: boolean;
 };
+
+interface PlayerScore {
+  player: string;
+  score: number | undefined;
+}
 
 export default function ScoreCard({ className, game, player, enabled }: Props) {
   const players = game.players;
@@ -34,7 +40,7 @@ export default function ScoreCard({ className, game, player, enabled }: Props) {
     return game.players[game.playerInTurn] === player && player === p;
   }
 
-  function playerScores(key: DieValue | LowerSectionKey) {
+  function playerScores(key: DieValue | LowerSectionKey): PlayerScore[] {
     if (isDieValue(key)) {
       return players.map((p: string, i: number) => ({
         player: p,
@@ -111,7 +117,7 @@ export default function ScoreCard({ className, game, player, enabled }: Props) {
           <tr>
             <td>Sum</td>
             <td>63</td>
-            {upper.map((section: any, i: number) => (
+            {upper.map((section, i) => (
               <td key={i} className={activeClass(players[i])}>
                 {sum_upper(section.scores)}
               </td>
@@ -120,7 +126,7 @@ export default function ScoreCard({ className, game, player, enabled }: Props) {
           <tr>
             <td>Bonus</td>
             <td>50</td>
-            {upper.map((section: any, i: number) => (
+            {upper.map((section, i) => (
               <td key={i} className={activeClass(players[i])}>
                 {displayScore(section.bonus)}
               </td>
@@ -129,7 +135,7 @@ export default function ScoreCard({ className, game, player, enabled }: Props) {
           <tr>
             <td>Total</td>
             <td />
-            {upper.map((section: any, i: number) => (
+            {upper.map((section, i) => (
               <td key={i} className={activeClass(players[i])}>
                 {total_upper(section)}
               </td>

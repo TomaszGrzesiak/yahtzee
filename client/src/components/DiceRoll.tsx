@@ -2,10 +2,11 @@ import { useState, useEffect } from "react";
 import * as api from "../model/api";
 import "./DiceRoll.css";
 import Image from "next/image";
+import { IndexedYahtzee } from "@/model/game";
 
 type Props = {
   className?: string;
-  game: any;
+  game: IndexedYahtzee;
   player: string;
   enabled: boolean;
 };
