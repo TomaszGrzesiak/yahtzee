@@ -7,7 +7,7 @@ This is an implementation of multi-player Yahtzee. It uses (or at least approxim
 Get the project from github
 
 ```
-git clone https://github.com/olehougaard/yahtzee
+git **clone** https://github.com/olehougaard/yahtzee
 ```
 
 ### Install
